@@ -24,29 +24,25 @@ public class ExampleProcessor(private val env: SymbolProcessorEnvironment) : Sym
         val functions = resolver.getSymbolsWithAnnotation("de.jensklingenberg.kspexample.ExampleAnnotation")
             .filterIsInstance<KSFunctionDeclaration>()
 
-      val functionSource =  functions.joinToString(separator = "\n") { function ->
+        val functionSource = functions.joinToString(separator = "\n") { function ->
             """fun generatedFunction() {
                     println("Hello from ${function.simpleName.asString()}!")
                 }"""
         }
-            env.codeGenerator.createNewFile(
-                dependencies = Dependencies(false, *functions.map { it.containingFile!! }.toList().toTypedArray()),
-                packageName = "de.jensklingenberg.kspexample",
-                fileName = "GeneratedClass"
-            ).use { output ->
-                OutputStreamWriter(output, Charsets.UTF_8).use { writer ->
-                    writer.write(
-                        """
+        env.codeGenerator.createNewFile(
+            dependencies = Dependencies(false, *functions.map { it.containingFile!! }.toList().toTypedArray()),
+            packageName = "de.jensklingenberg.kspexample",
+            fileName = "GeneratedClass"
+        ).use { output ->
+            OutputStreamWriter(output, Charsets.UTF_8).use { writer ->
+                writer.write(
+                    """
                 package de.jensklingenberg.kspexample
                 $functionSource
             """
-                    )
-                }
+                )
             }
-
-
-
-
+        }
 
         return emptyList()
     }

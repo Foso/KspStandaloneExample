@@ -20,13 +20,8 @@ tasks.withType<KotlinCompile> {
 
 dependencies {
     implementation(libs.kspApi)
-    implementation("com.google.devtools.ksp:symbol-processing-aa:2.0.0-Beta1-1.0.15")
-    implementation("com.google.devtools.ksp:symbol-processing-common-deps:2.0.0-Beta1-1.0.15")
-    implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:2.0.0-Beta1")
     compileOnly(libs.autoService)
     kapt(libs.autoService)
-
-
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
